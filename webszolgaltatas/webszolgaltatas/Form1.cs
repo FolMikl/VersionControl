@@ -13,12 +13,18 @@ namespace webszolgaltatas
 {
     public partial class Form1 : Form
     {
+        class RateData
+        {
+            public DateTime Date { get; set; }
+            public string Currency { get; set; }
+            public decimal Value { get; set; }
+        }
 
-
+        BindingList<RateData> Rates = new BindingList<RateData>(); 
         public Form1()
         {
             InitializeComponent();
-
+            dataGridView1.DataSource = Rates;
             var mnbService = new MNBArfolyamServiceSoapClient();
 
             var request = new GetExchangeRatesRequestBody()
