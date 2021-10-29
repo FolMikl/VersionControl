@@ -23,13 +23,22 @@ namespace webszolgaltatas
         }
 
         BindingList<RateData> Rates = new BindingList<RateData>();
+        BindingList<string> Currencies = new BindingList<string>();
 
         public Form1()
         {
             InitializeComponent();
+
+            GetCurrencies();
+
             RaefreshData();
+            comboBox1.DataSource = Currencies;
         }
 
+        private void GetCurrencies()
+        {
+
+        }
         private void RaefreshData()
         {
             Rates.Clear();
