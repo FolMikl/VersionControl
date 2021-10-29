@@ -27,13 +27,19 @@ namespace webszolgaltatas
         public Form1()
         {
             InitializeComponent();
+            RaefreshData();
+        }
+
+        private void RaefreshData()
+        {
+            Rates.Clear();
             var mnbService = new MNBArfolyamServiceSoapClient();
 
             var request = new GetExchangeRatesRequestBody()
             {
-                currencyNames = "EUR",
-                startDate = "2020-01-01",
-                endDate = "2020-06-30"
+                currencyNames = comboBox1.SelectedItem,
+                startDate = dateTimePicker1.Value,
+                endDate = dateTimePicker2.Value
             };
             var response = mnbService.GetExchangeRates(request);
 
@@ -83,6 +89,16 @@ namespace webszolgaltatas
                 if (unit != 0)
                     rate.Value = value / unit;
             }
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            RaefreshData();
+        }
+
+        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
+        {
+            RaefreshData();
         }
     }
 }
