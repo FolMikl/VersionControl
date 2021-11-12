@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _7.feladat
 {
-    class BallFactory
+    public class BallFactory
     {
         public Ball CreateNew()
         {
