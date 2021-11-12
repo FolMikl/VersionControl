@@ -47,8 +47,8 @@ namespace webszolgaltatas
             var request = new GetExchangeRatesRequestBody()
             {
                 currencyNames = comboBox1.SelectedItem.ToString(),
-                startDate = dateTimePicker1.Value.ToString(),
-                endDate = dateTimePicker2.Value.ToString()
+                startDate = dateTimePicker1.ToString(),
+                endDate = dateTimePicker2.ToString()
             };
             var response = mnbService.GetExchangeRates(request);
 
