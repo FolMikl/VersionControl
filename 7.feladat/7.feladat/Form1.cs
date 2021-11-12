@@ -29,8 +29,8 @@ namespace _7.feladat
 
         private void createTimer_Tick(object sender, EventArgs e)
         {
-            var ball = Factory.CreateNew();
-            _toys.Add(Toy);
+            var toy = Factory.CreateNew();
+            _toys.Add(toy);
             toy.Left = -toy.Width;
             mainPanel.Controls.Add(toy);
         }
@@ -40,7 +40,7 @@ namespace _7.feladat
             var maxPosition = 0;
             foreach (var toy in _toys)
             {
-                toy.MoveToy();
+                toy.MoveBall();
                 if (toy.Left > maxPosition)
                     maxPosition = toy.Left;
             }

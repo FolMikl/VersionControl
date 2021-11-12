@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _7.feladat
-{
-    public class Car : Toy
-    {
+{    public class Car : Toy
+     {
         protected override void DrawImage(Graphics g)
         {
             Image imageFile = Image.FromFile("Images/car.png");
