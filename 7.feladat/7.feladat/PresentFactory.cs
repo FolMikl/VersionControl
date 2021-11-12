@@ -11,6 +11,7 @@ namespace _7.feladat
     {
         public Toy CreateNew()
         {
+           
             return new Present(Color1, Color1);
         }
     }
