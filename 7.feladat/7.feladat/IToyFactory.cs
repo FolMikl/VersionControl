@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace _7.feladat
 {
-    public class BallFactory : IToyFactory
+    public interface IToyFactory
     {
-        public Toy CreateNew()
-        {
-            return new Ball();
-        }
+        Toy CreateNew();
     }
 }
