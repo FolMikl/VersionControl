@@ -61,6 +61,10 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="IToyFactory.cs" />
+    <Compile Include="Present.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PresentFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Toy.cs">

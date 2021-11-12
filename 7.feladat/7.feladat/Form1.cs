@@ -90,5 +90,10 @@ namespace _7.feladat
                 return;
             button.BackColor = ColorPicker.Color;
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
