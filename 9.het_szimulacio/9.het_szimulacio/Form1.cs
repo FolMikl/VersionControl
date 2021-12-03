@@ -13,6 +13,8 @@ namespace _9.het_szimulacio
 {
     public partial class Form1 : Form
     {
+        Random rng = new Random(1234);
+
         List<Person> Population = new List<Person>();
         List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
         List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
@@ -23,6 +25,22 @@ namespace _9.het_szimulacio
             BirthProbabilities = GetBirthProbabilities(@"C:\Temp\születés.csv");
             DeathProbabilities = GetDeathProbabilities(@"C:\Temp\halál.csv");
 
+            for (int year = 2005; year <= 2024; year++)
+            {
+                for (int i = 0; i < Population.Count; i++)
+                {
+                    SimStep(int year, Person person);
+                }
+
+                int nbrOfMales = (from x in Population
+                                  where x.Gender == Gender.Male && x.IsAlive
+                                  select x).Count();
+                int nbrOfFemales = (from x in Population
+                                    where x.Gender == Gender.Female && x.IsAlive
+                                    select x).Count();
+                Console.WriteLine(
+                    string.Format("Év:{0} Fiúk:{1} Lányok:{2}", year, nbrOfMales, nbrOfFemales));
+            }
         }
 
         public List<Person> GetPopulation(string csvpath)
@@ -48,7 +66,7 @@ namespace _9.het_szimulacio
 
         public List<BirthProbability> GetBirthProbabilities(string csvpath)
         {
-            List<BirthProbability> population = new List<BirthProbability>();
+            List<BirthProbability> BirthProbabilities = new List<BirthProbability>();
 
             using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
             {
@@ -61,12 +79,12 @@ namespace _9.het_szimulacio
                 }
             }
 
-            return population;
+            return BirthProbabilities;
         }
 
         public List<DeathProbability> GetDeathProbabilities(string csvpath)
         {
-            List<DeathProbability> population = new List<DeathProbability>();
+            List<DeathProbability> DeathProbabilities = new List<DeathProbability>();
 
             using (StreamReader sr = new StreamReader(csvpath, Encoding.Default))
             {
@@ -80,7 +98,42 @@ namespace _9.het_szimulacio
                 }
             }
 
-            return population;
+            return DeathProbabilities;
+        }
+        private void SimStep(int year, Person person)
+        {
+            //Ha halott akkor kihagyjuk, ugrunk a ciklus következő lépésére
+            if (!person.IsAlive) return;
+
+            // Letároljuk az életkort, hogy ne kelljen mindenhol újraszámolni
+            byte age = (byte)(year - person.BirthYear);
+
+            // Halál kezelése
+            // Halálozási valószínűség kikeresése
+            double pDeath = (from x in DeathProbabilities
+                             where x.Gender == person.Gender && x.Age == age
+                             select x.P).FirstOrDefault();
+            // Meghal a személy?
+            if (rng.NextDouble() <= pDeath)
+                person.IsAlive = false;
+
+            //Születés kezelése - csak az élő nők szülnek
+            if (person.IsAlive && person.Gender == Gender.Female)
+            {
+                //Szülési valószínűség kikeresése
+                double pBirth = (from x in BirthProbabilities
+                                 where x.Age == age
+                                 select x.P).FirstOrDefault();
+                //Születik gyermek?
+                if (rng.NextDouble() <= pBirth)
+                {
+                    Person újszülött = new Person();
+                    újszülött.BirthYear = year;
+                    újszülött.NbrOfChildren = 0;
+                    újszülött.Gender = (Gender)(rng.Next(1, 3));
+                    Population.Add(újszülött);
+                }
+            }
         }
     }
 }
