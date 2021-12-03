@@ -29,7 +29,7 @@ namespace _9.het_szimulacio
             {
                 for (int i = 0; i < Population.Count; i++)
                 {
-                    SimStep(int year, Person person);
+                    Simulation();
                 }
 
                 int nbrOfMales = (from x in Population
