@@ -21,6 +21,8 @@ namespace worldshardestgame
         int nbrOfStepsIncrement = 10;
         int generation = 1;
 
+        Brain winnerBrain = null;
+
         public Form1()
         {
             InitializeComponent();
@@ -28,7 +30,6 @@ namespace worldshardestgame
             ga = gc.ActivateDisplay();
             this.Controls.Add(ga);
 
-            gc.GameOver += Gc_GameOver;
 
             for (int i = 0; i < populationSize; i++)
             {
@@ -55,6 +56,12 @@ namespace worldshardestgame
             var topPerformers = playerList.Take(populationSize / 2).ToList();
 
             gc.ResetCurrentLevel();
+            var winners = from p in topPerformers
+                          where p.IsWinner
+                          select p;
+
+
+
             foreach (var p in topPerformers)
             {
                 var b = p.Brain.Clone();
@@ -67,7 +74,16 @@ namespace worldshardestgame
                     gc.AddPlayer(b.Mutate().ExpandBrain(nbrOfStepsIncrement));
                 else
                     gc.AddPlayer(b.Mutate());
+
             }
+            if (winners.Count() > 0)
+            {
+                winnerBrain = winners.FirstOrDefault().Brain.Clone();
+                gc.GameOver -= Gc_GameOver;
+                return;
+            }
+
+
             gc.Start();
         }
     }
