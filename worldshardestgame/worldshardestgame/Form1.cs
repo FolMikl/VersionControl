@@ -45,6 +45,7 @@ namespace worldshardestgame
         }
         private void Gc_GameOver(object sender)
         {
+            button1.Visible = false;
             generation++;
             label1.Text = string.Format(
                 "{0}. generáció",
@@ -80,11 +81,21 @@ namespace worldshardestgame
             {
                 winnerBrain = winners.FirstOrDefault().Brain.Clone();
                 gc.GameOver -= Gc_GameOver;
+                button1.Visible = true;
                 return;
             }
 
 
             gc.Start();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            gc.ResetCurrentLevel();
+            gc.AddPlayer(winnerBrain.Clone());
+            gc.AddPlayer();
+            ga.Focus();
+            gc.Start(true);
         }
     }
 }
